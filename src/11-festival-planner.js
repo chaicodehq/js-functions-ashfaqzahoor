@@ -50,4 +50,76 @@
  */
 export function createFestivalManager() {
   // Your code here
+  let festivals = [];
+  const allowedTypes = ["religious", "national", "cultural"];
+
+  function isValidDate(date) {
+    return typeof date === "string" && !isNaN(new Date(date).getTime());
+  }
+
+  function addFestival(name, date, type) {
+    if (
+      !name ||
+      typeof name !== "string" ||
+      !isValidDate(date) ||
+      !allowedTypes.includes(type)
+    ) {
+      return -1;
+    }
+
+    for (let i = 0; i < festivals.length; i++) {
+      if (festivals[i].name === name) {
+        return -1;
+      }
+    }
+
+    festivals.push({ name, date, type });
+    return festivals.length;
+  }
+
+  function removeFestival(name) {
+    for (let i = 0; i < festivals.length; i++) {
+      if (festivals[i].name === name) {
+        festivals.splice(i, 1);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getAll() {
+    return festivals.map(f => ({ ...f }));
+  }
+
+  function getByType(type) {
+    return festivals
+      .filter(f => f.type === type)
+      .map(f => ({ ...f }));
+  }
+
+  function getUpcoming(currentDate, n = 3) {
+    if (!isValidDate(currentDate)) return [];
+
+    const upcoming = festivals
+      .filter(f => f.date >= currentDate)
+      .slice()
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, n)
+      .map(f => ({ ...f }));
+
+    return upcoming;
+  }
+
+  function getCount() {
+    return festivals.length;
+  }
+
+  return {
+    addFestival,
+    removeFestival,
+    getAll,
+    getByType,
+    getUpcoming,
+    getCount
+  }
 }

@@ -33,4 +33,48 @@
  */
 export function calculateDosaOrder(type, quantity = 1, isSpicy = false) {
   // Your code here
+//   - Dosa prices: plain=40, masala=60, onion=50, butter=70, paper=90, cheese=80
+//  *   - quantity ka default value 1 hai (agar nahi diya toh 1 maano)
+//  *   - isSpicy ka default value false hai
+//  *   - Agar isSpicy true hai, toh har dosa pe Rs 10 extra lagao
+//  *   - pricePerDosa = base price + (10 if spicy)
+//  *   - total = pricePerDosa * quantity
+//  *   - Return: { type, quantity, pricePerDosa, total }
+//  *   - Hint: Use default parameters, object return
+const prices = {
+    plain: 40,
+    masala: 60,
+    onion: 50,
+    butter: 70,
+    paper: 90,
+    cheese: 80
+  };
+
+  
+  if (
+    typeof type !== "string" ||
+    !prices.hasOwnProperty(type) ||
+    typeof quantity !== "number" ||
+    quantity <= 0
+  ) {
+    return null;
+  }
+
+  let pricePerDosa = prices[type];
+
+  if (isSpicy === true) {
+    pricePerDosa += 10;
+  }
+
+  const total = pricePerDosa * quantity;
+
+  return {
+    type,
+    quantity,
+    pricePerDosa,
+    total
+  };
 }
+
+
+ 
